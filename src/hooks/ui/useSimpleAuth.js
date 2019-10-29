@@ -7,7 +7,7 @@ const useSimpleAuth = () => {
     const [loggedIn, setIsLoggedIn] = useState(false)
 
     const isAuthenticated = () =>
-        loggedIn || localStorage.getItem("bangazon_token") !== null
+        loggedIn || localStorage.getItem("gameApp_token") !== null
 
     const register = userInfo => {
         return fetch("http://127.0.0.1:8000/register", {
@@ -22,7 +22,7 @@ const useSimpleAuth = () => {
             .then(res => {
                 if ("token" in res) {
                     localStorage.setItem( "id", res.id )
-                    localStorage.setItem( "bangazon_token", res.token )
+                    localStorage.setItem( "gameApp_token", res.token )
                     setIsLoggedIn(true)
                 }
             })
@@ -41,7 +41,7 @@ const useSimpleAuth = () => {
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem( "id", res.id )
-                    localStorage.setItem( "bangazon_token", res.token )
+                    localStorage.setItem( "gameApp_token", res.token )
                     setIsLoggedIn(true)
                 }
             })
@@ -49,7 +49,7 @@ const useSimpleAuth = () => {
 
     const logout = () => {
         setIsLoggedIn(false)
-        localStorage.removeItem("bangazon_token")
+        localStorage.removeItem("gameApp_token")
         localStorage.removeItem("id")
     }
 
