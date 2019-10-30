@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useRef } from "react"
-// import Product from "../cards/Product"
-// import "./HomePage.css"
+import "./HomePage.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import Event from "../event/Event"
 
 
 
 
 const HomePage = props => {
     const [myEvents, setMyEvents] = useState([])
+    const [otherEvents, setOtherEvents] = useState([])
     const {isAuthenticated} = useSimpleAuth()
-    const searchTerm = useRef()
-    const [city, setCity] = useState(undefined)
 
 
 
@@ -20,7 +19,7 @@ const HomePage = props => {
             if (event) {
               event.preventDefault()
             }
-              fetch(`http://localhost:8000/playerevent?customer=true&is_aproved=true`, {
+              fetch(`http://localhost:8000/event`, {
                   "method": "GET",
                   "headers": {
                     "Accept": "application/json",
@@ -31,7 +30,14 @@ const HomePage = props => {
               })
               .then(response => response.json())
               .then((response) => {
-                  setMyEvents(response)
+                var myEvents = []
+                var otherEvents = []
+
+                response.forEach(event => {event.user_player ? myEvents.push(event) : otherEvents.push(event)})
+                setMyEvents(myEvents)
+                setOtherEvents(otherEvents)
+
+
                 })
 
       }
@@ -46,41 +52,28 @@ const HomePage = props => {
           <h1> WELCOME TO boarDOM</h1>
 
           {isAuthenticated() ?
+          <React.Fragment>
 
-          <h3>My Upcoming Events</h3>
+          <h3 align='center'>My Upcoming Events</h3>
+          <div className="user-events">
 
-          <form>
-            <input
-                placeholder="Search by city..."
-                name="search"
-                ref={searchTerm}
-            />
-            <button
-            id="search"
-            onClick = {(event) => {
-              searchProducts(event)
-            }}>Search</button>
-            <button
-            id="clear"
-            onClick = {(event) => {
-              getQuantity(event)
-
-              }}
-            >Clear</button>
-          </form>
-
-
-          {dynamicHeader(city)}
-          <div className="homePage-Div">
-          {products.length > 0 ?
-          // looping through products and displaying the information in a card component
-          products.map(product =>{
-              return( <Product key={product.id} product={product} showCategory={true} /> )
+          {myEvents.map(event => {
+            return(<Event key={event.id} event={event}/>)
           })
-
-
-          : ""}
+          }
           </div>
+          <h3 align='center'> Events Happening Soon in Nashville</h3>
+          <div className="other-events">
+
+          {otherEvents.map(event => {
+            return(<Event key={event.id} event={event}/>)
+          })
+          }
+          </div>
+
+          </React.Fragment>
+          : ""}
+
         </>
     )
   }
