@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState} from "react"
 import "./HomePage.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 import Event from "../event/Event"
@@ -15,11 +15,11 @@ const HomePage = props => {
 
 
 
-    const getMyEvents = (event) => {
+    const getEvents = (event) => {
             if (event) {
               event.preventDefault()
             }
-              fetch(`http://localhost:8000/event`, {
+              fetch(`http://localhost:8000/events`, {
                   "method": "GET",
                   "headers": {
                     "Accept": "application/json",
@@ -45,7 +45,7 @@ const HomePage = props => {
 
 
 
-    useEffect(getMyEvents, [])
+    useEffect(getEvents, [])
 
       return(
         <>

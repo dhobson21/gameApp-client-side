@@ -1,12 +1,12 @@
 import React from "react"
 import { Link } from 'react-router-dom'
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+// import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 import "./Event.css"
 
 
 
 const Event = props => {
-    const { isAuthenticated } = useSimpleAuth()
+    // const { isAuthenticated } = useSimpleAuth()
 
     // Function to determine if and how many players are needed to meet min_player property of game---added to bottom of card if more players are needed
     const playersNeeded = () => {
@@ -31,7 +31,7 @@ const Event = props => {
                     <div>
 
                     <p align="center">Game: {props.event.game.name}</p>
-                    <img  className=" img-fluid card-img-bottom" src={props.event.game.thumb_nail } alt="Card Image" style={{width: "7rem", height: "6rem"}} ></img>
+                    <img  className=" img-fluid card-img-bottom" src={props.event.game.thumb_nail } alt="Game" style={{width: "7rem", height: "6rem"}} ></img>
 
                     </div>
                     <div >

@@ -1,13 +1,76 @@
 import { Route } from "react-router-dom"
-import React, { useEffect, useState } from "react"
+import React, {  useState, useEffect } from "react"
 import { withRouter, Redirect } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
+import EventForm from    "./event/EventForm"
 import HomePage from "./home/HomePage"
+import Collection from "./games/Collection"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 
 const ApplicationViews = () => {
+    const [games, setGames] = useState([])
+    const [categories, setCategories] = useState([])
+    const [events, setEvents] = useState([])
+    const { isAuthenticated } = useSimpleAuth()
 
+
+    const getEvents = (event) => {
+        if (event) {
+          event.preventDefault()
+        }
+          fetch(`http://localhost:8000/events`, {
+              "method": "GET",
+              "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+              }
+          })
+          .then(response => response.json())
+          .then(setEvents)
+
+  }
+
+    const getGames = () => {
+
+
+            fetch(`http://localhost:8000/games`, {
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+                }
+            })
+            .then(response => response.json())
+            .then(setGames)
+
+    }
+
+    const getCategories = () => {
+        fetch(`http://localhost:8000/categories`, {
+            "method": "GET",
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+            }
+        })
+        .then(response => response.json())
+        .then(setCategories)
+
+    }
+
+
+    useEffect(() => {
+        getEvents()
+        getGames()
+        getCategories()
+    }, [])
     return(
         <React.Fragment>
 
@@ -24,7 +87,26 @@ const ApplicationViews = () => {
             />
             <Route
                 exact path="/" render={props => {
-                    return <HomePage {...props} />
+                    if(isAuthenticated()) return (
+                        <HomePage {...props} />
+                    )
+                    else return<Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/collection" render={props => {
+                    if(isAuthenticated()) return (
+                        <Collection {...props}    />
+                    )
+                    else return <Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/host-form" render={props => {
+                    if(isAuthenticated()) return (
+                        <EventForm {...props} events={events} getEvents={getEvents}   />
+                    )
+                    else return <Redirect to="/login" />
                 }}
             />
 

@@ -22,7 +22,7 @@ const NavBar = props => {
                             <Link className="nav-link" to="/collection">Game Collection</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/event-form">Host an Event</Link>
+                            <Link className="nav-link" to="/host-form">Host an Event</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to="/explore">Explore Events</Link>
