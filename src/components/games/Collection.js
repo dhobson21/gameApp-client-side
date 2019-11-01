@@ -2,6 +2,9 @@ import React, { useEffect, useState} from "react"
 import Game from "./Game"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 import "./Collection.css"
+import { Link } from 'react-router-dom'
+
+
 
 
 const Collection = props => {
@@ -47,7 +50,7 @@ const Collection = props => {
           }
           </div>
           <div>
-            <button >Add New Game</button>
+            <Link to="/collection/add">Add New Game</Link>
           </div>
           <hr/>
           </React.Fragment>

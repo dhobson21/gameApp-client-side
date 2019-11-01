@@ -4,6 +4,7 @@ import { withRouter, Redirect } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
 import EventForm from    "./event/EventForm"
+import GameForm from    "./games/GameForm"
 import HomePage from "./home/HomePage"
 import Collection from "./games/Collection"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
@@ -97,6 +98,14 @@ const ApplicationViews = () => {
                 exact path="/collection" render={props => {
                     if(isAuthenticated()) return (
                         <Collection {...props}    />
+                    )
+                    else return <Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/collection/add" render={props => {
+                    if(isAuthenticated()) return (
+                        <GameForm {...props} getGames={getGames}    />
                     )
                     else return <Redirect to="/login" />
                 }}
