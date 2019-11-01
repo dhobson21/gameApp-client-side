@@ -49,7 +49,7 @@ const HomePage = props => {
 
       return(
         <>
-          <h1> WELCOME TO boarDOM</h1>
+          <h1> WELCOME TO BOARDUP</h1>
 
           {isAuthenticated() ?
           <React.Fragment>
