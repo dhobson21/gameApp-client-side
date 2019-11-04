@@ -9,7 +9,6 @@ const Game = props => {
     // const { isAuthenticated } = useSimpleAuth()
 
 
-    console.log(props)
     return (
         <>
         <div className="card" style={{width: "200px"}}>

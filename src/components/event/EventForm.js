@@ -77,7 +77,6 @@ const EventForm = props => {
         })
         .then(response => response.json())
         .then(() => {
-            console.log("Added")
             props.getEvents()
             props.history.push("/")
         })
