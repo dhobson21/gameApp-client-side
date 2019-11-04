@@ -4,21 +4,21 @@ import React, { useState, useEffect, useRef } from "react";
 import "./EventDetail.css";
 
 const EventDetail = props => {
+    const [modalIsOpen, setIsOpen] = useState(false)
     const name = useRef();
   const description = useRef();
   const date = useRef();
   const time = useRef();
   const address = useRef();
   const zip_code = useRef();
-  let ed = null;
-  let de = null;
+  let edit = null;
+  let del = null;
+  let join = null;
   let dialog = null
-  const [modalIsOpen, setIsOpen] = useState(false)
+  let joinDialog = null
 
 
   // Functions for edit modal
-
-
   const toggleDialog = () => {
     setIsOpen(!modalIsOpen)
 
@@ -29,23 +29,9 @@ const EventDetail = props => {
     }
 }
 
-useEffect(() => {
-    dialog = document.querySelector("#dialog--time")
-
-    const handler = e => {
-        // Close all dialogs when ESC is pressed, and close search field
-        if (e.keyCode === 27) {
-            if (modalIsOpen) {
-                toggleDialog()
-            }
-        }
-    }
-
-    window.addEventListener("keyup", handler)
-    return () => window.removeEventListener("keyup", handler)
-})
 
 
+    // function to delete an event---also deletes playerEvents
   const deleteEvent = () => {
     window.confirm(`are you sure you want to cancel ${props.event.name}`);
     fetch(`http://localhost:8000/events/${props.event.id}`, {
@@ -60,8 +46,45 @@ useEffect(() => {
     });
   };
 
+  const requestJoinEvent = () => {
+
+    if(!props.event.user_player) {
+        window.confirm("You must be approved by host before joining")
+
+            fetch('http://localhost:8000/playerevents', {
+                "method": "POST",
+                "headers": {
+                    "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+            },
+            "body": JSON.stringify({
+                "event": props.event.id,
+                "has_played": false
+
+            })
+        })
+        .then(response => response.json())
+        .then(() => {
+            window.alert("Request sent to host")
+            props.getEvents()
+            props.history.push("/")
+        })
+
+
+    }
+  }
+
+
+  //   Function to PUT changed event
   const editEvent = (event) => {
     var format = /[!@#$%^&*()]+/;
+    var q = new Date()
+    var m = q.getMonth();
+    var d = q.getDay();
+    var y = q.getFullYear();
+    var today_date = new Date(y,m,d);
+
         event.preventDefault()
         // convery price string to number and force $00.00 format
         // check on if user has selected a product category
@@ -71,7 +94,12 @@ useEffect(() => {
         else if (zip_code.current.value.length !== 5) {
             window.alert("Please enter a valid, 5-digit zip code")
         }
+        else if (Date.parse(date.current.value) <= Date.parse(today_date)) {
+            window.alert("Please select a future date")
+
+        }
         else {
+
         fetch(`http://localhost:8000/events/${props.event.id}`, {
             "method": "PUT",
             "headers": {
@@ -96,21 +124,39 @@ useEffect(() => {
         })
     }
   }
+//   Function on render that places buttons where they need to be depending on the user's relation to the event
   const renderHostBtn = () => {
+      edit = document.getElementById("edit");
+      del = document.getElementById("delete");
+      join = document.getElementById("join-btn")
     if (+props.event.game.owner.id !== +localStorage.getItem("id")) {
-      ed = document.getElementById("edit");
-      de = document.getElementById("delete");
-      ed.style.visibility = "hidden";
-      de.style.visibility = "hidden";
+
+      edit.style.visibility = "hidden";
+      del.style.visibility = "hidden";
+        }
+    if(join !== null) {
+        join.addEventListener('click', requestJoinEvent)
+
+    }
+    if (props.event.is_full === true & join !== null) {
+
+        join.style.visibility = 'hidden'
+    }
+
+    props.event.waiting_list.forEach(player =>{
+        if (player.id === +localStorage.getItem("id")) {
+            join.style.visibility = 'hidden'
+        }
+    })
 
     }
 
-  };
-
   useEffect(() => {
+
     renderHostBtn()
     dialog = document.querySelector("#dialog--time")
-    console.log(props)
+
+
 
     const handler = e => {
         // Close all dialogs when ESC is pressed, and close search field
@@ -140,7 +186,7 @@ useEffect(() => {
           </div>
           <div>
             <label htmlFor="address">Address:</label>
-            <input ref={address} name="addres" defaultValue={props.event.address} required type="text" />
+            <input ref={address} name="address" defaultValue={props.event.address} required type="text" />
           </div>
           <div>
             <label htmlFor="zip_code">Zip Code:</label>
@@ -166,6 +212,20 @@ useEffect(() => {
         </form>
 
             </dialog>
+            <dialog id="join-event" className="join-event">
+                <label htmlFor="starttime">When do you want to ride?</label>
+                <input  type="text" name="starttime" autoFocus required />
+
+                <button >Add to Itinerary</button>
+
+                <button style={{
+                    position: "absolute",
+                    top: "0.25em",
+                    right: "0.25em"
+                }}
+                    id="closeBtn"
+                    onClick={toggleDialog}>X</button>
+            </dialog>
 
       <div className="container">
         <header>
@@ -178,21 +238,21 @@ useEffect(() => {
               <div>
                 <p>
                   <b>Date: </b>
-                  {props.event.date}{" "}
+                  {props.event.date}
                 </p>
                 <p>
                   <b>Time: </b>
-                  {props.event.time}{" "}
+                  {props.event.time}
                 </p>
               </div>
               <div>
                 <p>
                   <b>Host: </b>
-                  {props.event.game.owner.user.username}{" "}
+                  {props.event.game.owner.user.username}
                 </p>
                 <p>
                   <b>Location: </b>
-                  {props.event.zip_code}{" "}
+                  {props.event.zip_code}
                 </p>
               </div>
               <div>
@@ -200,9 +260,12 @@ useEffect(() => {
                   <b>Player Count:</b> {props.event.player_list.length}
                 </p>
                 {props.event.need_players > 0 ? (
+                    <div>
                   <p>
-                    <b>Players Needed:</b> {props.event.need_players}{" "}
+                    <b>Players Needed:</b> {props.event.need_players}
                   </p>
+
+                    </div>
                 ) : (
                   ""
                 )}
@@ -217,9 +280,9 @@ useEffect(() => {
                 </ol>
               <hr></hr>
               </div>
+              <div >
 
-
-              <div></div>
+              </div>
             </div>
           </nav>
           <div className="outer-col-2">
@@ -231,9 +294,10 @@ useEffect(() => {
                       {props.event.user_player ? (
                         <h5>
                           <span className="badge badge-primary">+ Player</span>
+
                         </h5>
                       ) : (
-                        ""
+                         <button id='join-btn'>Join Event</button>
                       )}
                       {props.event.is_full ? (
                         <h5>
