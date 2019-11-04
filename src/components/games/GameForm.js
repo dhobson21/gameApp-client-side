@@ -1,5 +1,4 @@
-import React, {useRef, useState, useEffect} from "react"
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import React, {useRef, useState, useEffect, useCallback} from "react"
 import SearchResultsCard from "./SearchResultsCard"
 
 
@@ -14,7 +13,6 @@ const GameForm = props => {
                                                 description: "",
                                                 thumbnail: ""
                                                         })
-    const { isAuthenticated } = useSimpleAuth()
     const search = useRef("")
     const name = useRef()
     const host_descrip = useRef()
@@ -38,7 +36,6 @@ const GameForm = props => {
 
     const searchGames = (event) => {
             event.preventDefault()
-            console.log("fetch")
             fetch(`http://localhost:8000/games?search=${search.current.value}`, {
                 "method": "GET",
                 "headers": {

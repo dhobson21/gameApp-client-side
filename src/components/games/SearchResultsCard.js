@@ -1,5 +1,4 @@
 import React from "react"
-import { Link } from 'react-router-dom'
 // import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 
@@ -8,7 +7,6 @@ import { Link } from 'react-router-dom'
 const SearchResultsCard = props => {
     // const { isAuthenticated } = useSimpleAuth()
 
-    console.log(props)
     return (
         <>
         <div className="card" style={{width: "15rem"}}>

@@ -33,7 +33,6 @@ const Collection = props => {
 
 
       useEffect(getMyGames, [])
-      console.log(myGames)
       return(
         <>
           <h1 align='center'> Your Game Collection</h1>

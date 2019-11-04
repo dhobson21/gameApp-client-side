@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+  }
+  .body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row;
+    margin: 0;
+  }
+  .outer-col-1 {
+
+    flex: 1;
+  }
+  .outer-col-2 {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+  }
+  .inner-row {
+    display: flex;
+    flex-direction: row;
+  }
+  .inner-col {
+    flex: 2;
+  }
+  .inner-row article {
+    min-height: 60vh;
+    /* border: 1px blue solid */
+  }
+  .inner-row aside {
+    /* border: 1px red solid; */
+    flex: 1;
+  }
+  header, footer {
+    /* border: 1px green solid; */
+    height: 20vh;
+  }
+  header, footer, article, nav, aside {
+    padding: 1em;
+  }
+
+
+
+
+.game-image {
+    height: 20rem;
+    width: 30rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.edit{
+ margin-left: 8rem;
+}
+.delete{
+ margin-left: 3rem;
+}

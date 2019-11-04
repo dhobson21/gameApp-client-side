@@ -4,6 +4,7 @@ import { withRouter, Redirect } from "react-router-dom"
 import Register from "./auth/Register"
 import Login from "./auth/Login"
 import EventForm from    "./event/EventForm"
+import EventDetail from "./event/EventDetail"
 import GameForm from    "./games/GameForm"
 import HomePage from "./home/HomePage"
 import Collection from "./games/Collection"
@@ -72,6 +73,7 @@ const ApplicationViews = () => {
         getGames()
         getCategories()
     }, [])
+
     return(
         <React.Fragment>
 
@@ -92,6 +94,20 @@ const ApplicationViews = () => {
                         <HomePage {...props} />
                     )
                     else return<Redirect to="/login" />
+                }}
+            />
+             <Route exact path="/events/:eventId(\d+)" render={(props) => {
+                if (isAuthenticated()) {
+                let event = events.find(e => e.id === +props.match.params.eventId)
+                if (event) {
+                    return <EventDetail getEvents={getEvents} {...props} event={event}/>
+
+                }
+                else {
+                    event = {id:404, name:"Product Not Found." }
+                    }
+                }
+                else return <Redirect to="/login" />
                 }}
             />
             <Route
