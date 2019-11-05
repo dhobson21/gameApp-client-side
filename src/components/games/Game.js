@@ -16,7 +16,7 @@ const Game = props => {
         <img  className=" card-img-top img-fluid" src={props.game.image } alt="Game"style={{height: "10rem", vspace: "0px", hspace: "0px"}}  ></img>
 
         <div className="card-body">
-        <Link className="nav-link" to={`/games/${props.game.id}`}>
+        <Link className="nav-link" to={`/collection/${props.game.id}`}>
                       <h4 className="card-title" align="center">{props.game.name}</h4>
                   </Link>
             <p className="card-text" align='center'>{props.game.host_descrip}</p>

@@ -6,6 +6,7 @@ import Login from "./auth/Login"
 import EventForm from    "./event/EventForm"
 import EventDetail from "./event/EventDetail"
 import GameForm from    "./games/GameForm"
+import GameDetail from    "./games/GameDetail"
 import HomePage from "./home/HomePage"
 import Collection from "./games/Collection"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
@@ -73,7 +74,7 @@ const ApplicationViews = () => {
         getGames()
         getCategories()
     }, [])
-
+    console.log(games)
     return(
         <React.Fragment>
 
@@ -110,12 +111,27 @@ const ApplicationViews = () => {
                 else return <Redirect to="/login" />
                 }}
             />
+
             <Route
                 exact path="/collection" render={props => {
                     if(isAuthenticated()) return (
                         <Collection {...props}    />
                     )
                     else return <Redirect to="/login" />
+                }}
+            />
+              <Route exact path="/collection/:gameId(\d+)" render={(props) => {
+                if (isAuthenticated()) {
+                let game = games.find(g => g.id === +props.match.params.gameId)
+                if (game) {
+                    return <GameDetail getGames={getGames} {...props} game={game}/>
+
+                }
+                else {
+                    game = {id:404, name:"Game Not Found." }
+                    }
+                }
+                else return <Redirect to="/login" />
                 }}
             />
             <Route
