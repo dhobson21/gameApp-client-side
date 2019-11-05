@@ -13,6 +13,7 @@ import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 
 const ApplicationViews = () => {
     const [games, setGames] = useState([])
+    const [messages, setMessages] = useState([])
     const [categories, setCategories] = useState([])
     const [events, setEvents] = useState([])
     const { isAuthenticated } = useSimpleAuth()
@@ -52,6 +53,22 @@ const ApplicationViews = () => {
             .then(setGames)
 
     }
+    const getNewMessages = () => {
+
+
+            fetch(`http://localhost:8000/messages`, {
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+                }
+            })
+            .then(response => response.json())
+            .then(setMessages)
+
+    }
 
     const getCategories = () => {
         fetch(`http://localhost:8000/categories`, {
@@ -73,8 +90,9 @@ const ApplicationViews = () => {
         getEvents()
         getGames()
         getCategories()
+        getNewMessages()
     }, [])
-    console.log(games)
+    console.log(messages)
     return(
         <React.Fragment>
 
@@ -146,6 +164,14 @@ const ApplicationViews = () => {
                 exact path="/host-form" render={props => {
                     if(isAuthenticated()) return (
                         <EventForm {...props} events={events} getEvents={getEvents}   />
+                    )
+                    else return <Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/messages" render={props => {
+                    if(isAuthenticated()) return (
+                        <MessagesPage {...props} events={events} getEvents={getEvents}   />
                     )
                     else return <Redirect to="/login" />
                 }}
