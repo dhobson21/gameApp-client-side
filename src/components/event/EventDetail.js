@@ -6,16 +6,16 @@ import "./EventDetail.css";
 const EventDetail = props => {
     const [modalIsOpen, setIsOpen] = useState(false)
     const name = useRef();
-  const description = useRef();
-  const date = useRef();
-  const time = useRef();
-  const address = useRef();
-  const zip_code = useRef();
-  let edit = null;
-  let del = null;
-  let join = null;
-  let dialog = null
-  let joinDialog = null
+    const description = useRef();
+    const date = useRef();
+    const time = useRef();
+    const address = useRef();
+    const zip_code = useRef();
+    let edit = null;
+    let del = null;
+    let join = null;
+    let dialog = null
+    let joinDialog = null
 
 
   // Functions for edit modal
@@ -46,6 +46,7 @@ const EventDetail = props => {
     });
   };
 
+//   Post to playerEvent Table which alsos creates a message to approve for the host
   const requestJoinEvent = () => {
 
     if(!props.event.user_player) {
@@ -96,10 +97,8 @@ const EventDetail = props => {
         }
         else if (Date.parse(date.current.value) <= Date.parse(today_date)) {
             window.alert("Please select a future date")
-
         }
         else {
-
         fetch(`http://localhost:8000/events/${props.event.id}`, {
             "method": "PUT",
             "headers": {
@@ -124,6 +123,7 @@ const EventDetail = props => {
         })
     }
   }
+
 //   Function on render that places buttons where they need to be depending on the user's relation to the event
   const renderHostBtn = () => {
       edit = document.getElementById("edit");
@@ -155,9 +155,6 @@ const EventDetail = props => {
 
     renderHostBtn()
     dialog = document.querySelector("#dialog--time")
-
-
-
     const handler = e => {
         // Close all dialogs when ESC is pressed, and close search field
         if (e.keyCode === 27) {
