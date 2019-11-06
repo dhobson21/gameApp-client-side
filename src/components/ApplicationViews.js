@@ -5,14 +5,17 @@ import Register from "./auth/Register"
 import Login from "./auth/Login"
 import EventForm from    "./event/EventForm"
 import EventDetail from "./event/EventDetail"
+import MessagesPage from "./messages/MessagesPage"
 import GameForm from    "./games/GameForm"
 import GameDetail from    "./games/GameDetail"
 import HomePage from "./home/HomePage"
 import Collection from "./games/Collection"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
+import ExplorePage from "./explore/ExplorePage"
 
 const ApplicationViews = () => {
     const [games, setGames] = useState([])
+    const [messages, setMessages] = useState([])
     const [categories, setCategories] = useState([])
     const [events, setEvents] = useState([])
     const { isAuthenticated } = useSimpleAuth()
@@ -52,6 +55,22 @@ const ApplicationViews = () => {
             .then(setGames)
 
     }
+    const getMessages = () => {
+
+
+            return fetch(`http://localhost:8000/messages?new=true`, {
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+                }
+            })
+            .then(response => response.json())
+            .then(setMessages)
+
+    }
 
     const getCategories = () => {
         fetch(`http://localhost:8000/categories`, {
@@ -73,8 +92,8 @@ const ApplicationViews = () => {
         getEvents()
         getGames()
         getCategories()
+        getMessages()
     }, [])
-    console.log(games)
     return(
         <React.Fragment>
 
@@ -146,6 +165,22 @@ const ApplicationViews = () => {
                 exact path="/host-form" render={props => {
                     if(isAuthenticated()) return (
                         <EventForm {...props} events={events} getEvents={getEvents}   />
+                    )
+                    else return <Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/messages" render={props => {
+                    if(isAuthenticated()) return (
+                        <MessagesPage {...props} getMessages={getMessages} messages={messages}  />
+                    )
+                    else return <Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/explore" render={props => {
+                    if(isAuthenticated()) return (
+                        <ExplorePage {...props} getEvents={getEvents}   />
                     )
                     else return <Redirect to="/login" />
                 }}
