@@ -84,10 +84,8 @@ const EventForm = props => {
             })
         })
         .then(response => response.json())
-        .then(() => {
-            props.getEvents()
-            props.history.push("/")
-        })
+        .then(props.getEvents())
+         .then(props.history.push("/"))
     }
     }
     useEffect(getMyGames,[])
