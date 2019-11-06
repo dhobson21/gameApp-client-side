@@ -3,6 +3,7 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 
 
+
 const EventForm = props => {
     const [myGames, setMyGames] = useState([])
     const name = useRef()
@@ -40,6 +41,10 @@ const EventForm = props => {
     const addEvent = (event) => {
         var format = /[!@#$%^&*()]+/;
         event.preventDefault()
+        let d = new Date().toISOString().slice(0,10);
+        console.log("date", date.current.value)
+        console.log("date", d)
+
         // convery price string to number and force $00.00 format
         // check on if user has selected a product category
         if ((name.current.value).match(format) || (description.current.value).match(format)) {
@@ -50,6 +55,9 @@ const EventForm = props => {
         }
         else if (game.current.value === 0) {
             window.alert("Please select a game to host")
+        }
+        else if (date.current.value < d) {
+            window.alert("Please select a future date")
         }
 
         else {

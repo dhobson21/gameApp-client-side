@@ -5,11 +5,13 @@ import Register from "./auth/Register"
 import Login from "./auth/Login"
 import EventForm from    "./event/EventForm"
 import EventDetail from "./event/EventDetail"
+import MessagesPage from "./messages/MessagesPage"
 import GameForm from    "./games/GameForm"
 import GameDetail from    "./games/GameDetail"
 import HomePage from "./home/HomePage"
 import Collection from "./games/Collection"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
+import ExplorePage from "./explore/ExplorePage"
 
 const ApplicationViews = () => {
     const [games, setGames] = useState([])
@@ -53,10 +55,10 @@ const ApplicationViews = () => {
             .then(setGames)
 
     }
-    const getNewMessages = () => {
+    const getMessages = () => {
 
 
-            fetch(`http://localhost:8000/messages`, {
+            return fetch(`http://localhost:8000/messages?new=true`, {
                 "method": "GET",
                 "headers": {
                     "Accept": "application/json",
@@ -90,9 +92,8 @@ const ApplicationViews = () => {
         getEvents()
         getGames()
         getCategories()
-        getNewMessages()
+        getMessages()
     }, [])
-    console.log(messages)
     return(
         <React.Fragment>
 
@@ -171,7 +172,15 @@ const ApplicationViews = () => {
             <Route
                 exact path="/messages" render={props => {
                     if(isAuthenticated()) return (
-                        <MessagesPage {...props} events={events} getEvents={getEvents}   />
+                        <MessagesPage {...props} getMessages={getMessages} messages={messages}  />
+                    )
+                    else return <Redirect to="/login" />
+                }}
+            />
+            <Route
+                exact path="/explore" render={props => {
+                    if(isAuthenticated()) return (
+                        <ExplorePage {...props} getEvents={getEvents}   />
                     )
                     else return <Redirect to="/login" />
                 }}
