@@ -30,7 +30,7 @@ props.onHide()
 
 
   }
-  (console.log("propsMess", props.message))
+
     return (
       <>
       {props.message !== "" ?

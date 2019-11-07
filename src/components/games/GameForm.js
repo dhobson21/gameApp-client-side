@@ -18,6 +18,8 @@ const GameForm = props => {
     const host_descrip = useRef()
     let dialog = document.querySelector("#dialog--time")
     const [isOpen, setIsOpen] = useState(false)
+    const[isEnabled, setIsEnabled] = useState(false)
+    const[srchBtnEnabled, setSrchBtnEnabled] = useState(false)
 
 
 
@@ -49,6 +51,7 @@ const GameForm = props => {
             .then(setSearchResults)
 
 
+
         }
 
 // Function to add new event to DB
@@ -57,9 +60,20 @@ const GameForm = props => {
         event.preventDefault()
         // convery price string to number and force $00.00 format
         // check on if user has selected a product category
-        if ((host_descrip.current.value).match(format)) {
+        let idList= []
+        props.games.forEach(game => idList.push(game.api_id))
+
+        if (idList.includes(APIGame.api_id)) {
+            window.alert("You  already have this game in your collection Please add a different game.")
+
+        }
+
+
+
+        else if ((host_descrip.current.value).match(format)) {
             window.alert("Please enter product name/details with no special characters; ie. no '!@#$%^&*()'")
         }
+
         else {
 
         fetch('http://localhost:8000/games', {
@@ -84,12 +98,14 @@ const GameForm = props => {
         .then(props.history.push("/collection"))
     }
 }
+    const enableSearchBtn = () => {
+        search.current.value !== "" ? setSrchBtnEnabled(true) : setSrchBtnEnabled(false)}
+
 
     useEffect(() =>{
         if (searchResults.length > 0) {
             toggleDialog()}
         },[searchResults])
-
 
     return (
         <React.Fragment>
@@ -101,7 +117,9 @@ const GameForm = props => {
 
                     <SearchResultsCard  game={game} {...props} />
                     <button   className="item"
+
                         onClick = {() => {
+                            setIsEnabled(true)
                             setAPIGame({
                                         name: game.name,
                                         min_players: game.min_players,
@@ -124,14 +142,17 @@ const GameForm = props => {
                 <div>
                     <label htmlFor="search">Search for Game:</label>
                     <input
+                    onChange = {enableSearchBtn}
                     ref={search}
                     name="search"
                     autoFocus
                     required
+
                     type="search"
                     />
                 </div>
                 <button
+                    disabled={!srchBtnEnabled}
                     onClick = {(event) => {
 
                     searchGames(event)
@@ -185,7 +206,7 @@ const GameForm = props => {
 
                     </textarea>
                 </div>
-                    <button onClick={addGame}
+                    <button disabled={!isEnabled} onClick={addGame}
                     >Add Game</button>
             </form>
         </React.Fragment>

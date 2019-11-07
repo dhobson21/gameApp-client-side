@@ -119,7 +119,7 @@ const EventDetail = props => {
         })
         .then(() => {
             props.getEvents()
-            props.history.push("/")
+            toggleDialog()
         })
     }
   }
@@ -143,16 +143,12 @@ const EventDetail = props => {
         join.style.visibility = 'hidden'
     }
 
-    props.event.waiting_list.forEach(player =>{
-        if (player.id === +localStorage.getItem("id")) {
-            join.style.visibility = 'hidden'
-        }
-    })
+
 
     }
 
   useEffect(() => {
-
+    console.log(props.event)
     renderHostBtn()
     dialog = document.querySelector("#dialog--time")
     const handler = e => {
@@ -207,22 +203,8 @@ const EventDetail = props => {
 
           <button onClick={editEvent}>Update Event</button>
         </form>
-
             </dialog>
-            <dialog id="join-event" className="join-event">
-                <label htmlFor="starttime">When do you want to ride?</label>
-                <input  type="text" name="starttime" autoFocus required />
 
-                <button >Add to Itinerary</button>
-
-                <button style={{
-                    position: "absolute",
-                    top: "0.25em",
-                    right: "0.25em"
-                }}
-                    id="closeBtn"
-                    onClick={toggleDialog}>X</button>
-            </dialog>
 
       <div className="container">
         <header>
@@ -233,6 +215,21 @@ const EventDetail = props => {
             <h6 align="center">Event Details</h6>
             <div className="d-flex flex-column">
               <div>
+              {props.event.user_player ?
+               ( <p>
+                  <b>Address: </b>
+                  {props.event.address}
+                </p>)
+                :
+                (<p>
+
+                  <h3>
+                          <span className="badge badge-danger">RESTRICTED ADDRESS</span>
+
+                        </h3  >
+                </p>)
+
+              }
                 <p>
                   <b>Date: </b>
                   {props.event.date}
@@ -269,12 +266,21 @@ const EventDetail = props => {
               </div>
               <div>
                 <hr></hr>
+                <div className="d-flex justify-content-between">
+                <div>
                 <b>Player List </b>
                 <ol>
                   {props.event.player_list.map(player => {
                     return <li key={player.id}>{player.user.username}</li>;
                   })}
                 </ol>
+                </div>
+                  { !props.event.user_player & !props.event.pending_request ? (
+                  <div>
+                <button width='auto' id='join-btn'>Join Event</button>
+                </div>) : ""
+                  }
+                </div>
               <hr></hr>
               </div>
               <div >
@@ -288,14 +294,19 @@ const EventDetail = props => {
                 <article>
                   <div>
                     <div className="d-flex justify-content-between">
-                      {props.event.user_player ? (
+                      {props.event.user_player == 'true' ? (
                         <h5>
                           <span className="badge badge-primary">+ Player</span>
 
                         </h5>
-                      ) : (
-                         <button id='join-btn'>Join Event</button>
-                      )}
+                      ) : "" }
+                      {props.event.pending_request ? (
+                        <h5>
+                          <span className="badge badge-warning">+ Pending</span>
+
+                        </h5>
+
+                      ) : ""}
                       {props.event.is_full ? (
                         <h5>
                           <span className="badge badge-success">Full Game</span>

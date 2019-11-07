@@ -56,7 +56,8 @@ const MessagePage = props => {
         onHide={() => setModalShow(false)}
         message={message}
         onExited={() => {
-          readMessage(message.id);
+          readMessage(message.id)
+          props.getEvents();
 
         }}
         messages={props.messages}

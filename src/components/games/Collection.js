@@ -14,7 +14,7 @@ const Collection = props => {
     const getMyGames = () => {
       if (isAuthenticated()) {
 
-          fetch(`http://localhost:8000/games?user=true`, {
+          fetch(`http://localhost:8000/games?user_game=true`, {
               "method": "GET",
               "headers": {
                   "Accept": "application/json",
