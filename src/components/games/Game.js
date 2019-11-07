@@ -1,28 +1,36 @@
-import React from "react"
+import React, {useRef, useState, useEffect, useCallback} from "react"
 import { Link } from 'react-router-dom'
+import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import GamePopOver from "./GamePopOver"
+
+
 // import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 
 
 
 const Game = props => {
-    // const { isAuthenticated } = useSimpleAuth()
+const [popoverOpen, setPopoverOpen] = useState(false);
+
+
 
 
     return (
         <>
-        <div className="card" style={{width: "200px"}}>
-        {/* <img className="card-img-top" src={props.game.image} alt="Game"> </img> */}
-        <img  className=" card-img-top img-fluid" src={props.game.image } alt="Game"style={{height: "10rem", vspace: "0px", hspace: "0px"}}  ></img>
+        <React.Fragment>
 
-        <div className="card-body">
-        <Link className="nav-link" to={`/collection/${props.game.id}`}>
-                      <h4 className="card-title" align="center">{props.game.name}</h4>
-                  </Link>
-            <p className="card-text" align='center'>{props.game.host_descrip}</p>
+        <GamePopOver {...props} />
+
+        <div id={`Popover1-${props.game.id}`} className="card bg-white text-black" style={{width: "200px"}}>
+        <img  className="card-img" src={props.game.image } alt="Game" style={{height: "10rem", vspace: "0px", hspace: "0px"}}  ></img>
+
+        <div className="card-img-overlay">
+
 
         </div>
+        <p className="card-text " align='center'>{props.game.name}</p>
         </div>
+        </React.Fragment>
     </>
     )
 }

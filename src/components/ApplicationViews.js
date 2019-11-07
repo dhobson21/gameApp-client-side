@@ -42,7 +42,7 @@ const ApplicationViews = () => {
     const getGames = () => {
 
 
-            fetch(`http://localhost:8000/games`, {
+            fetch(`http://localhost:8000/games?user=true`, {
                 "method": "GET",
                 "headers": {
                     "Accept": "application/json",
@@ -156,7 +156,7 @@ const ApplicationViews = () => {
             <Route
                 exact path="/collection/add" render={props => {
                     if(isAuthenticated()) return (
-                        <GameForm {...props} getGames={getGames}    />
+                        <GameForm {...props} getGames={getGames} games={games}    />
                     )
                     else return <Redirect to="/login" />
                 }}
@@ -172,7 +172,7 @@ const ApplicationViews = () => {
             <Route
                 exact path="/messages" render={props => {
                     if(isAuthenticated()) return (
-                        <MessagesPage {...props} getMessages={getMessages} messages={messages}  />
+                        <MessagesPage {...props} getMessages={getMessages} getEvents={getEvents} messages={messages}  />
                     )
                     else return <Redirect to="/login" />
                 }}

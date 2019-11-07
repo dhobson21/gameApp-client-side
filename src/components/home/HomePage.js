@@ -33,9 +33,12 @@ const HomePage = props => {
                 var myEvents = []
                 var otherEvents = []
 
+
                 response.forEach(event => {event.user_player ? myEvents.push(event) : otherEvents.push(event)})
                 setMyEvents(myEvents)
                 setOtherEvents(otherEvents)
+                console.log(myEvents)
+                console.log(otherEvents)
 
 
                 })
