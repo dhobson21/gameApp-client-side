@@ -1,0 +1,16 @@
+.game-form  { display: table;
+                      }
+.game-div     { display: table-row;  }
+.game-label { display: table-cell; }
+.game-input { display: table-cell;
+              margin-left: 20px;
+              margin-top: 20px   }
+
+
+
+
+.game-button {
+    display: table-cell;
+    margin-left: 11rem;
+    margin-top: 30px
+}

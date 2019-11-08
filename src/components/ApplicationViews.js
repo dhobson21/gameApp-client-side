@@ -18,6 +18,7 @@ const ApplicationViews = () => {
     const [messages, setMessages] = useState([])
     const [categories, setCategories] = useState([])
     const [events, setEvents] = useState([])
+    const [playerevents, setPlayerEvents] = useState([])
     const { isAuthenticated } = useSimpleAuth()
 
 
@@ -42,7 +43,7 @@ const ApplicationViews = () => {
     const getGames = () => {
 
 
-            fetch(`http://localhost:8000/games?user=true`, {
+            fetch(`http://localhost:8000/games?user_game=true`, {
                 "method": "GET",
                 "headers": {
                     "Accept": "application/json",
@@ -53,6 +54,22 @@ const ApplicationViews = () => {
             })
             .then(response => response.json())
             .then(setGames)
+
+    }
+    const getPlayerEvents = () => {
+
+
+            fetch(`http://localhost:8000/playerevents`, {
+                "method": "GET",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+                }
+            })
+            .then(response => response.json())
+            .then(setPlayerEvents)
 
     }
     const getMessages = () => {
@@ -93,6 +110,7 @@ const ApplicationViews = () => {
         getGames()
         getCategories()
         getMessages()
+        setPlayerEvents()
     }, [])
     return(
         <React.Fragment>

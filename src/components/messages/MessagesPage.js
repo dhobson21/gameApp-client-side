@@ -63,7 +63,7 @@ const MessagePage = props => {
         messages={props.messages}
       />
 
-      <h1 align="center"> Board-Up Inbox</h1>
+      <h2 align="center"> Board-Up Inbox</h2>
 
       <h3 align="center">My Messages</h3>
       <div className="container" stlye={{ border: "1px black solid" }}>
