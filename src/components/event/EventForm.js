@@ -1,5 +1,6 @@
 import React, {useRef, useState, useEffect} from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
+import "./EventForm.css"
 
 
 
@@ -13,7 +14,6 @@ const EventForm = props => {
     const zip_code = useRef()
     const date = useRef()
     const time = useRef()
-    const has_played = useRef()
     const { isAuthenticated } = useSimpleAuth()
 
 
@@ -77,7 +77,7 @@ const EventForm = props => {
                 "zip_code": zip_code.current.value,
                 "date": date.current.value,
                 "time": time.current.value,
-                "has_played": has_played.current.value,
+                "has_played": true,
                 "recurring": 0,
                 "recurring_days": null
 
@@ -91,10 +91,11 @@ const EventForm = props => {
     useEffect(getMyGames,[])
     return (
         <React.Fragment>
-            <form>
-                <div>
-                    <label htmlFor="name">Name:</label>
-                    <input
+            <h2 align='center'>Host an Event</h2>
+            <form className = 'event-form'>
+                <div className='event-div'>
+                    <label className='event-label' htmlFor="name">Name:</label>
+                    <input className='event-input'
                     ref={name}
                     name="name"
                     autoFocus
@@ -103,9 +104,9 @@ const EventForm = props => {
 
                     />
                 </div>
-                <div>
-                    <label htmlFor="game">Game:</label>
-                    <select
+                <div className= 'event-div'>
+                    <label className= 'event-label' htmlFor="game">Game:</label>
+                    <select className='event-input'
                     name="game"
                     ref={game}
                     required>
@@ -117,18 +118,18 @@ const EventForm = props => {
                     }
                     </select>
                 </div>
-                <div >
-                    <label htmlFor="description">Description:</label>
-                    <textarea
+                <div className= 'event-div'>
+                    <label className= 'event-label' htmlFor="description">Description:</label>
+                    <textarea className= 'event-input'
                     ref={description}
                     name="description"
                     required>
 
                     </textarea>
                 </div>
-                <div>
-                    <label htmlFor="address">Address:</label>
-                    <input
+                <div className= 'event-div'>
+                    <label className= 'event-label' htmlFor="address">Address:</label>
+                    <input className= 'event-input'
                     ref={address}
                     name="addres"
                     required
@@ -136,9 +137,9 @@ const EventForm = props => {
 
                     />
                 </div>
-                <div>
-                    <label htmlFor="zip_code">Zip Code:</label>
-                    <input
+                <div className= 'event-div'>
+                    <label className= 'event-label' htmlFor="zip_code">Zip Code:</label>
+                    <input className= 'event-input'
                     name="zip_code"
                     ref={zip_code}
                     required
@@ -146,9 +147,9 @@ const EventForm = props => {
 
                     />
                 </div>
-                <div>
-                    <label htmlFor="time">Time:</label>
-                    <input
+                <div className = 'event-div'>
+                    <label className = 'event-label' htmlFor="time">Time:</label>
+                    <input className = 'event-input'
                     name="time"
                     ref={time}
                     required
@@ -156,26 +157,17 @@ const EventForm = props => {
 
                     />
                 </div>
-                <div>
-                    <label htmlFor="date">Date:</label>
-                    <input
+                <div className = 'event-div'>
+                    <label className= 'event-label' htmlFor="date">Date:</label>
+                    <input className= 'event-input'
                     type="date"
                     ref={date}
                     name="date"
                     min={new Date().toISOString().slice(0,10)}
                     required></input>
                 </div>
-                <div>
-                <label htmlFor="has_played">Have you played this game before?</label>
-                    <select
-                    name="has_played"
-                    ref={has_played}
-                    required>
-                    <option defaultValue value = "True">Yes</option>
-                    <option  value = "False">No</option>
-                    </select>
-                </div>
-                    <button onClick={addEvent}
+
+                    <button className = 'event-button' onClick={addEvent}
                     >Create Event</button>
             </form>
         </React.Fragment>

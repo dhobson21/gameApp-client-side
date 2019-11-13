@@ -1,6 +1,7 @@
 import React, { useRef } from "react"
 // import "./Login.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import "./Login.css"
 
 
 const Login = props => {
@@ -30,7 +31,15 @@ const Login = props => {
     }
 
     return (
-        <main style={{textAlign:"center"}}>
+        <main className="container h-100" style={{textAlign:"center"}}>
+        <div className="d-flex justify-content-center h-100">
+			<div className="user_card">
+				<div className="d-flex justify-content-center">
+					<div className="brand_logo_container">
+						<img src="https://cdn.freebiesupply.com/logos/large/2x/pinterest-circle-logo-png-transparent.png" className="brand_logo" alt="Logo"/>
+					</div>
+				</div>
+				<div className="d-flex justify-content-center form_container"></div>
             <form className="form--login" onSubmit={handleLogin}>
                 <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
                 <fieldset>
@@ -54,6 +63,9 @@ const Login = props => {
                     </button>
                 </fieldset>
             </form>
+            </div>
+			</div>
+
         </main>
     )
 }

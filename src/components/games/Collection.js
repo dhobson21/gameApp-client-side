@@ -35,21 +35,21 @@ const Collection = props => {
       useEffect(getMyGames, [])
       return(
         <>
-          <h1 align='center'> Your Game Collection</h1>
+          <h2 align='center'> Game Collection</h2>
 
           {isAuthenticated() ?
           <React.Fragment>
+          <div className = 'button-NAME' float='right'>
+            <Link to="/collection/add">Add New Game</Link>
+          </div>
 
-          <h3 align='center'>My Games</h3>
+
           <div className="game-collection">
 
           {myGames.map(game => {
             return(<Game {...props} key={game.id} game={game}/>)
           })
           }
-          </div>
-          <div>
-            <Link to="/collection/add">Add New Game</Link>
           </div>
           <hr/>
           </React.Fragment>

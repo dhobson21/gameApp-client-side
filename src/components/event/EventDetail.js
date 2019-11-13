@@ -221,13 +221,13 @@ const EventDetail = props => {
                   {props.event.address}
                 </p>)
                 :
-                (<p>
+                (
 
                   <h3>
                           <span className="badge badge-danger">RESTRICTED ADDRESS</span>
 
-                        </h3  >
-                </p>)
+                        </h3>
+                )
 
               }
                 <p>
@@ -294,7 +294,7 @@ const EventDetail = props => {
                 <article>
                   <div>
                     <div className="d-flex justify-content-between">
-                      {props.event.user_player == 'true' ? (
+                      {props.event.user_player == true ? (
                         <h5>
                           <span className="badge badge-primary">+ Player</span>
 

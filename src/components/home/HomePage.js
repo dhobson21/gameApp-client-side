@@ -52,12 +52,13 @@ const HomePage = props => {
 
       return(
         <>
-          <h1> WELCOME TO BOARDUP</h1>
+          <h2 className="header" >BOARD-UP</h2>
+
 
           {isAuthenticated() ?
           <React.Fragment>
-
-          <h3 align='center'>My Upcoming Events</h3>
+          {myEvents.length > 0 ?
+          <h3 align='center'>My Upcoming Events</h3>:""}
           <div className="user-events">
 
           {myEvents.map(event => {
@@ -65,7 +66,8 @@ const HomePage = props => {
           })
           }
           </div>
-          <h3 align='center'> Events Happening Soon in Nashville</h3>
+          {otherEvents.length > 0 ?
+          <h3 align='center'> Events Happening Soon in Nashville</h3>:""}
           <div className="other-events">
 
           {otherEvents.map(event => {

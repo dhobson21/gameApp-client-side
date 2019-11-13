@@ -5,3 +5,16 @@
     margin-left: 5px;
     margin-right: 2px
   }
+
+  .button-NAME {
+      max-width: 11rem;
+      background-color: grey;
+      color: white;
+      padding: 1em 1.5em;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-radius: 5%;
+
+  }
+
+

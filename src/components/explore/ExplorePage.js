@@ -69,7 +69,7 @@ const ExplorePage = props => {
   return (
     <React.Fragment>
       <Container>
-        <h4>Search for upcoming Events</h4>
+        <h2 align='center'>Search Events</h2>
       </Container>
       <Form>
         <Row form>
@@ -85,7 +85,7 @@ const ExplorePage = props => {
 
             </FormGroup>
           </Col>
-          <Col md={4}>
+          <Col md={2}>
             <FormGroup>
               <input
 

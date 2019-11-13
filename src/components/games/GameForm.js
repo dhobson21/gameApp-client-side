@@ -1,5 +1,6 @@
 import React, {useRef, useState, useEffect, useCallback} from "react"
 import SearchResultsCard from "./SearchResultsCard"
+import "./GameForm.css"
 
 
 
@@ -94,8 +95,8 @@ const GameForm = props => {
         .then(response => response.json())
         .then(() => {
             props.getGames()
+            props.history.push("/collection")
         })
-        .then(props.history.push("/collection"))
     }
 }
     const enableSearchBtn = () => {
@@ -109,14 +110,14 @@ const GameForm = props => {
 
     return (
         <React.Fragment>
-            <dialog id="dialog--time" className= "dialog--time" style={{width: "100%"}}>
+            <dialog id="dialog--time" className= "dialog--time" style={{width: "50%"}}>
                 <div className="d-inline-flex justify-content-around">
 
                 {searchResults.map((game, i) => {
                     return (<div key={i}>
 
                     <SearchResultsCard  game={game} {...props} />
-                    <button   className="item"
+                    <button className = 'game-button'
 
                         onClick = {() => {
                             setIsEnabled(true)
@@ -138,10 +139,12 @@ const GameForm = props => {
                 }
                 </div>
             </dialog>
-            <form>
-                <div>
-                    <label htmlFor="search">Search for Game:</label>
+            <form className ="game-form">
+                <div className = "game-div">
+                    <label
+                    className='game=label' htmlFor="search">Search for Game:</label>
                     <input
+                    className='game-input'
                     onChange = {enableSearchBtn}
                     ref={search}
                     name="search"
@@ -151,7 +154,7 @@ const GameForm = props => {
                     type="search"
                     />
                 </div>
-                <button
+                <button className= "game-button"
                     disabled={!srchBtnEnabled}
                     onClick = {(event) => {
 
@@ -160,12 +163,14 @@ const GameForm = props => {
 
             </form>
             <hr/>
-            <form>
+            <form className="game-form">
 
 
-                <div >
-                    <label htmlFor="name">Game Name:</label>
+                <div className = "game-div" >
+                    <label
+                    className='game-label' htmlFor="name">Game Name:</label>
                     <input
+                    className='game-input'
                     readOnly
                     ref={name}
                     value = {APIGame.name}
@@ -175,9 +180,11 @@ const GameForm = props => {
 
                     />
                 </div>
-                <div>
-                    <label htmlFor="min_players">Minimum Players:</label>
+                <div className = "game-div">
+                    <label
+                    className='game-label' htmlFor="min_players">Minimum Players:</label>
                     <input
+                    className='game-input'
                     readOnly
                     value={APIGame.min_players}
                     name="min_players"
@@ -186,9 +193,11 @@ const GameForm = props => {
 
                     />
                 </div>
-                <div>
-                    <label htmlFor="max_players">Maximum Players:</label>
+                <div className = "game-div">
+                    <label
+                    className='game-label' htmlFor="max_players">Maximum Players:</label>
                     <input
+                    className='game-input'
                     readOnly
                     value={APIGame.max_players}
                     name="max_players"
@@ -197,18 +206,19 @@ const GameForm = props => {
 
                     />
                 </div>
-                <div >
-                    <label htmlFor="host_descrip">Description:</label>
-                    <textarea
+                <div className = "game-div" >
+                    <label
+                    className='game-label' htmlFor="host_descrip">Description:</label>
+                    <textarea className='game-input'
                     ref={host_descrip}
                     name="host_descrip"
                     required>
 
                     </textarea>
                 </div>
-                    <button disabled={!isEnabled} onClick={addGame}
-                    >Add Game</button>
             </form>
+                    <button className = 'game-button' disabled={!isEnabled} onClick={addGame}
+                    >Add Game</button>
         </React.Fragment>
     )
 }
