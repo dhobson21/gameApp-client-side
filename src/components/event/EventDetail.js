@@ -221,13 +221,13 @@ const EventDetail = props => {
                   {props.event.address}
                 </p>)
                 :
-                (<p>
+                (
 
                   <h3>
                           <span className="badge badge-danger">RESTRICTED ADDRESS</span>
 
                         </h3>
-                </p>)
+                )
 
               }
                 <p>

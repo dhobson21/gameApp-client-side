@@ -47,7 +47,7 @@ const MessagePage = props => {
     getNewMessages()
 
 
-  }, [messages]);
+  }, [props.messages]);
 
   return (
     <React.Fragment>
@@ -72,7 +72,9 @@ const MessagePage = props => {
           <div className="col-lg">Event</div>
           <div className="col-lg">Message Type</div>
         </div>
-        {messages ? messages.map(m => {
+
+
+        {messages ? messages.map((m, i) => {
           return (
             <span
               onClick={() => {
@@ -83,6 +85,7 @@ const MessagePage = props => {
             >
               <div align="center">
                 <div className="row">
+
                   <div className="col-lg">{m.sender.user.username}</div>
                   <div className="col-lg">{m.event.name}</div>
                   <div className="col-lg">{m.type}</div>

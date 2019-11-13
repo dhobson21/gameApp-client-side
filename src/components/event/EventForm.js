@@ -14,7 +14,6 @@ const EventForm = props => {
     const zip_code = useRef()
     const date = useRef()
     const time = useRef()
-    const has_played = useRef()
     const { isAuthenticated } = useSimpleAuth()
 
 
@@ -78,7 +77,7 @@ const EventForm = props => {
                 "zip_code": zip_code.current.value,
                 "date": date.current.value,
                 "time": time.current.value,
-                "has_played": has_played.current.value,
+                "has_played": true,
                 "recurring": 0,
                 "recurring_days": null
 
