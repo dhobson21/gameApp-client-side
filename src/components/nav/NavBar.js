@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState, useEffect} from "react"
 import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
@@ -7,6 +7,29 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 const NavBar = props => {
     const { isAuthenticated, logout } = useSimpleAuth()
+    const [myMessages, setMyMessages] = useState([])
+
+    const getMessages = () => {
+
+
+        fetch(`http://localhost:8000/messages?new=true`, {
+            "method": "GET",
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("gameApp_token")}`
+
+            }
+        })
+        .then(response => response.json())
+        .then((response) => {
+            setMyMessages(response)
+            console.log('done')
+        })
+
+}
+
+useEffect(getMessages, [props.myMessages])
 
     return (
         <nav className="navbar navbar-light light-blue flex-md-nowrap p-0 shadow">
@@ -28,7 +51,7 @@ const NavBar = props => {
                         <Link className="nav-link" to="/explore">Explore Events</Link>
                     </li>
                     <li className="nav-item">
-                    <Link className="nav-link" to="/messages">Messages</Link>
+                    <Link className="nav-link" to="/messages">Messages {}({myMessages.length})</Link>
                     </li>
 
                     <li className="nav-item ">
