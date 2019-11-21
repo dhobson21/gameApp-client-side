@@ -13,13 +13,14 @@ import Collection from "./games/Collection"
 import useSimpleAuth from "../hooks/ui/useSimpleAuth"
 import ExplorePage from "./explore/ExplorePage"
 
-const ApplicationViews = () => {
+const ApplicationViews = (props) => {
     const [games, setGames] = useState([])
     const [messages, setMessages] = useState([])
     const [categories, setCategories] = useState([])
     const [events, setEvents] = useState([])
     const [playerevents, setPlayerEvents] = useState([])
     const { isAuthenticated } = useSimpleAuth()
+    const callBack = props.callBack
 
 
     const getEvents = (event) => {
@@ -111,6 +112,8 @@ const ApplicationViews = () => {
         getCategories()
         getMessages()
         setPlayerEvents()
+        props.callBack(messages)
+
     }, [])
     return(
         <React.Fragment>
@@ -190,7 +193,7 @@ const ApplicationViews = () => {
             <Route
                 exact path="/messages" render={props => {
                     if(isAuthenticated()) return (
-                        <MessagesPage {...props} getMessages={getMessages} getEvents={getEvents} messages={messages}  />
+                        <MessagesPage {...props} callback = {callBack} getMessages={getMessages} getEvents={getEvents} messages={messages}  />
                     )
                     else return <Redirect to="/login" />
                 }}

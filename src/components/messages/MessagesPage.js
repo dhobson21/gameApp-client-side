@@ -39,12 +39,14 @@ const MessagePage = props => {
         is_approved: "anything"
       })
     }).then(props.getMessages)
-      .then(setMessages);
+      .then(setMessages)
+      .then(props.callback(messages))
 
   };
 
   useEffect(() => {
     getNewMessages()
+    console.log("mprops", props)
 
 
   }, [props.messages]);
